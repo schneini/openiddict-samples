@@ -237,6 +237,9 @@ public class AuthorizationController : Controller
                 .SetClaim(Claims.Name, await _userManager.GetUserNameAsync(user))
                 .SetClaim(Claims.PreferredUsername, await _userManager.GetUserNameAsync(user))
                 .SetClaims(Claims.Role, (await _userManager.GetRolesAsync(user)).ToImmutableArray());
+        
+        identity.SetAccessTokenLifetime(TimeSpan.FromMinutes(60));
+        identity.SetRefreshTokenLifetime(TimeSpan.FromDays(60));
 
         // Note: in this sample, the granted scopes match the requested scope
         // but you may want to allow the user to uncheck specific scopes.
@@ -251,7 +254,7 @@ public class AuthorizationController : Controller
             identity: identity,
             subject : await _userManager.GetUserIdAsync(user),
             client  : await _applicationManager.GetIdAsync(application),
-            type    : AuthorizationTypes.Permanent,
+            type    : AuthorizationTypes.AdHoc,
             scopes  : identity.GetScopes());
 
         identity.SetAuthorizationId(await _authorizationManager.GetIdAsync(authorization));

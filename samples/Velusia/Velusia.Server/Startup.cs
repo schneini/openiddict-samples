@@ -133,6 +133,8 @@ public class Startup
                        .EnableTokenEndpointPassthrough()
                        .EnableUserinfoEndpointPassthrough()
                        .EnableStatusCodePagesIntegration();
+
+                options.UseDataProtection();
             })
 
             // Register the OpenIddict validation components.
@@ -143,6 +145,8 @@ public class Startup
 
                 // Register the ASP.NET Core host.
                 options.UseAspNetCore();
+
+                options.UseDataProtection();
             });
 
         // Register the worker responsible for seeding the database.
